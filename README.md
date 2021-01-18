@@ -1,0 +1,48 @@
+# Geocoding
+>注：
+> 该项目为 [IceMimosa/geocoding](https://github.com/IceMimosa/geocoding) 项目的Python封装，原项目为Kotlin开发，
+> 这里使用`jpype`模块进行了Python封装，方便使用Python方法调用
+## 地址标准化
+`Geocoding.normalizing(address) `
+* address: 文本地址
+* return: dict
+```python
+from Geocoding import Geocoding
+Geocoding = Geocoding()
+text = '两水义成路与紫荆路'
+address_nor = Geocoding.normalizing(text)
+print(address_nor)
+```
+
+## 地址相似度计算
+`Geocoding.similarityWithResult(text1, text2)`
+* text1: 文本地址1
+* text2: 文本地址2
+* return float
+```python
+from Geocoding import Geocoding
+Geocoding = Geocoding()
+text1 = '山东青岛李沧区延川路116号绿城城园东区7号楼2单元802户'
+text2 = '山东青岛李沧区延川路绿城城园东区7-2-802'
+similar = Geocoding.similarityWithResult(text1, text2)
+print(similar)
+```
+
+## 添加自定义地址
+`Geocoding.addRegionEntry(Id, parentId, name, RegionType, alias='')`
+* Id: 地址的ID
+* parentId: 地址的父ID, 必须存在
+* name: 地址的名称
+* RegionType: RegionType,地址类型, [请在ShowRegionType中查看详细信息]
+* alias: 地址的别名
+* return: bool
+```python
+from Geocoding import Geocoding
+Geocoding = Geocoding()
+Geocoding.addRegionEntry(1, 321200000000, "A", 'Street')
+test_address = Geocoding.normalizing("江苏泰州A")
+print(test_address)
+```
+
+##  查看RegionType
+`Geocoding.showRegionType()`
