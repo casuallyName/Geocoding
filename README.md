@@ -7,7 +7,7 @@
 ## 地址标准化
 `Geocoding.normalizing(address,java_type=False) `
 * address: 文本地址
-* java_type: 返回java原生类型,<java class 'io.patamon.geocoding.model.Address'>, defuat=False
+* java_type: 返回java原生类型,<java class 'io.patamon.geocoding.model.Address'>, default=False
 * return: dict
 ```python
 from Geocoding import Geocoding
@@ -37,7 +37,7 @@ print(similar)
 * parentId: 地址的父ID, 必须存在
 * name: 地址的名称
 * RegionType: RegionType,地址类型, [请在ShowRegionType中查看详细信息]
-* alias: 地址的别名
+* alias: 地址的别名, default=''
 * return: bool
 ```python
 from Geocoding import Geocoding

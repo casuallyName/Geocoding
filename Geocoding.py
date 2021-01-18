@@ -67,7 +67,7 @@ class Geocoding():
         地址标准化
 
         :param address: 文本地址
-        :param java_type: 返回java原生类型,<java class 'io.patamon.geocoding.model.Address'>, defuat=False
+        :param java_type: 返回java原生类型,<java class 'io.patamon.geocoding.model.Address'>, default=False
         :return:
         '''
         if java_type:
@@ -147,7 +147,7 @@ class Geocoding():
         :param parentId: 地址的父ID, 必须存在
         :param name: 地址的名称
         :param RegionType: RegionType,地址类型, [请在ShowRegionType中查看详细信息]
-        :param alias: 地址的别名
+        :param alias: 地址的别名, default=''
         :return:
         '''
         try:
