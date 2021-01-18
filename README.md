@@ -12,7 +12,7 @@
 ```python
 from Geocoding import Geocoding
 Geocoding = Geocoding()
-text = '两水义成路与紫荆路'
+text =  '山东青岛李沧区延川路116号绿城城园东区7号楼2单元802户'
 address_nor = Geocoding.normalizing(text)
 print(address_nor)
 ```
