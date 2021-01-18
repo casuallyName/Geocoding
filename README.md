@@ -5,8 +5,9 @@
 > 该项目为 [IceMimosa/geocoding](https://github.com/IceMimosa/geocoding) 项目的Python封装，原项目为Kotlin开发，
 > 这里使用`jpype`模块进行了Python封装，方便使用Python方法调用
 ## 地址标准化
-`Geocoding.normalizing(address) `
+`Geocoding.normalizing(address,java_type=False) `
 * address: 文本地址
+* java_type: 返回java原生类型,<java class 'io.patamon.geocoding.model.Address'>, defuat=False
 * return: dict
 ```python
 from Geocoding import Geocoding
@@ -17,9 +18,9 @@ print(address_nor)
 ```
 
 ## 地址相似度计算
-`Geocoding.similarityWithResult(text1, text2)`
-* text1: 文本地址1
-* text2: 文本地址2
+`Geocoding.similarityWithResult(Address1, Address2)`
+* text1: 地址1, <class 'str'> 或 <java class 'io.patamon.geocoding.model.Address'>
+* text2: 地址1, <class 'str'> 或 <java class 'io.patamon.geocoding.model.Address'>
 * return float
 ```python
 from Geocoding import Geocoding

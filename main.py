@@ -12,22 +12,24 @@ if __name__ == '__main__':
     Geocoding = Geocoding()
 
     # 地址标准化
-    # text = '广东省河源市源城区中山大道16号华怡小区'
+    text = '广东省河源市源城区中山大道16号华怡小区'
     # text = '两水义成路与紫荆路'
-    # address_nor = Geocoding.normalizing(text)
-    # print(address_nor)
+    address_nor = Geocoding.normalizing(text, java_type=True)
+    print(type(address_nor))
 
     # 地址相似度计算
     text1 = '山东青岛李沧区延川路116号绿城城园东区7号楼2单元802户'
-    # text2 = '山东青岛李沧区延川路绿城城园东区7-2-802'
-    # similar = Geocoding.similarityWithResult(text1, text2)
-    # print(similar)
+    text2 = '山东青岛李沧区延川路绿城城园东区7-2-802'
+    similar = Geocoding.similarityWithResult(text1, text2)
+    print(similar)
+    print(type('1'))
+
 
     # 查看RegionType
     # Geocoding.showRegionType()
 
     # 添加自定义地址
-    Geocoding.addRegionEntry(1, 321200000000, "A街", 'Street')
-    test_address = Geocoding.normalizing("江苏泰州A街")
-    print(test_address)
+    # Geocoding.addRegionEntry(1, 321200000000, "A街", 'Street')
+    # test_address = Geocoding.normalizing("江苏泰州A街")
+    # print(test_address)
 

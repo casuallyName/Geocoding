@@ -62,73 +62,75 @@ class Geocoding():
                 print('{:-<20}┼-{}'.format('', '-' * 15))
                 flag = False
 
-    def normalizing(self, address):
+    def normalizing(self, address,java_type=False):
         '''
         地址标准化
 
         :param address: 文本地址
+        :param java_type: 返回java原生类型,<java class 'io.patamon.geocoding.model.Address'>, defuat=False
         :return:
         '''
-        pattern = re.compile(
-            "Address.*?provinceId=(.*?),.*?province=(.*?),.*?cityId=(.*?),.*?city=(.*?),.*?districtId=(.*?),.*?d" +
-            "istrict=(.*?),.*?streetId=(.*?),.*?street=(.*?),.*?townId=(.*?),.*?town=(.*?),.*?villageId=(.*?),.*?" +
-            "village=(.*?),.*?road=(.*?),.*?roadNum=(.*?),.*?buildingNum=(.*?),.*?text=(.*?)\n\)",
-            re.S)
+        if java_type:
+            return self.geocoding.normalizing(str(address))
+        else:
+            pattern = re.compile(
+                "Address.*?provinceId=(.*?),.*?province=(.*?),.*?cityId=(.*?),.*?city=(.*?),.*?districtId=(.*?),.*?d" +
+                "istrict=(.*?),.*?streetId=(.*?),.*?street=(.*?),.*?townId=(.*?),.*?town=(.*?),.*?villageId=(.*?),.*?" +
+                "village=(.*?),.*?road=(.*?),.*?roadNum=(.*?),.*?buildingNum=(.*?),.*?text=(.*?)\n\)",
+                re.S)
 
-        try:
-            info = re.findall(pattern, str(self.geocoding.normalizing(str(address)).toString()))[0]
-            info = [None if i == 'null' or i == 'nan' else i for i in info]
+            try:
+                info = re.findall(pattern, str(self.geocoding.normalizing(str(address)).toString()))[0]
+                info = [None if i == 'null' or i == 'nan' else i for i in info]
 
-            return {
-                'provinceId': info[0],
-                'province': info[1],
-                'cityId': info[2],
-                'city': info[3],
-                'districtId': info[4],
-                'district': info[5],
-                'streetId': info[6],
-                'street': info[7],
-                'townId': info[8],
-                'town': info[9],
-                'villageId': info[10],
-                'village': info[11],
-                'road': info[12],
-                'roadNum': info[13],
-                'buildingNum': info[14],
-                'text': info[15]
-            }
-        except AttributeError:
-            return {
-                'provinceId': '000000000000',
-                'province': None,
-                'cityId': '000000000000',
-                'city': None,
-                'districtId': '000000000000',
-                'district': None,
-                'streetId': None,
-                'street': None,
-                'townId': None,
-                'town': None,
-                'villageId': None,
-                'village': None,
-                'road': None,
-                'roadNum': None,
-                'buildingNum': None,
-                'text': None
-            }
+                return {
+                    'provinceId': info[0],
+                    'province': info[1],
+                    'cityId': info[2],
+                    'city': info[3],
+                    'districtId': info[4],
+                    'district': info[5],
+                    'streetId': info[6],
+                    'street': info[7],
+                    'townId': info[8],
+                    'town': info[9],
+                    'villageId': info[10],
+                    'village': info[11],
+                    'road': info[12],
+                    'roadNum': info[13],
+                    'buildingNum': info[14],
+                    'text': info[15]
+                }
+            except AttributeError:
+                return {
+                    'provinceId': '000000000000',
+                    'province': None,
+                    'cityId': '000000000000',
+                    'city': None,
+                    'districtId': '000000000000',
+                    'district': None,
+                    'streetId': None,
+                    'street': None,
+                    'townId': None,
+                    'town': None,
+                    'villageId': None,
+                    'village': None,
+                    'road': None,
+                    'roadNum': None,
+                    'buildingNum': None,
+                    'text': None
+                }
 
-    def similarityWithResult(self, text1, text2):
+    def similarityWithResult(self, Address1, Address2):
         '''
         地址相似度计算, 包含匹配的所有结果
 
-        :param text1: 地址1
-        :param text2: 地址2
+        :param Address1: 地址1, <class 'str'> 或 <java class 'io.patamon.geocoding.model.Address'>
+        :param Address1: 地址2, <class 'str'> 或 <java class 'io.patamon.geocoding.model.Address'>
         :return:
         '''
-        addr1 = self.geocoding.normalizing(text1)
-        addr2 = self.geocoding.normalizing(text2)
         pattern = re.compile("similarity=(.*?)\n\)", re.S)
-        return eval(re.findall(pattern, str(self.geocoding.similarityWithResult(addr1, addr2).toString()))[0])
+        return eval(re.findall(pattern, str(self.geocoding.similarityWithResult(Address1, Address2).toString()))[0])
 
     def addRegionEntry(self, Id, parentId, name, RegionType, alias=''):
         '''
