@@ -19,8 +19,8 @@ print(address_nor)
 
 ## 地址相似度计算
 `Geocoding.similarityWithResult(Address1, Address2)`
-* text1: 地址1, <class 'str'> 或 <java class 'io.patamon.geocoding.model.Address'>
-* text2: 地址1, <class 'str'> 或 <java class 'io.patamon.geocoding.model.Address'>
+* text1: 地址1, 请确保两个输入参数类型相同， 支持`<class 'str'>`或`<java class 'io.patamon.geocoding.model.Address'>`类型
+* text2: 地址2, 请确保两个输入参数类型相同， 支持`<class 'str'>`或`<java class 'io.patamon.geocoding.model.Address'>`类型
 * return float
 ```python
 from Geocoding import Geocoding

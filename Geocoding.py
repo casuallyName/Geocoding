@@ -18,7 +18,7 @@ class Geocoding():
         else:
             self.JVMPath = JVMPath
 
-        self.jarPath = "-Djava.class.path="+os.path.abspath(__file__).replace('Geocoding.py','src\geocoding.jar')
+        self.jarPath = "-Djava.class.path=" + os.path.abspath(__file__).replace('Geocoding.py', 'src\geocoding.jar')
         # self.jarPath = "-Djava.class.path=./src/geocoding.jar"
         # print(self.jarPath)
         jpype.startJVM(self.JVMPath, "-ea", self.jarPath)
@@ -62,7 +62,7 @@ class Geocoding():
                 print('{:-<20}┼-{}'.format('', '-' * 15))
                 flag = False
 
-    def normalizing(self, address,java_type=False):
+    def normalizing(self, address, java_type=False):
         '''
         地址标准化
 
@@ -74,10 +74,17 @@ class Geocoding():
             return self.geocoding.normalizing(str(address))
         else:
             pattern = re.compile(
-                "Address.*?provinceId=(.*?),.*?province=(.*?),.*?cityId=(.*?),.*?city=(.*?),.*?districtId=(.*?),.*?d" +
-                "istrict=(.*?),.*?streetId=(.*?),.*?street=(.*?),.*?townId=(.*?),.*?town=(.*?),.*?villageId=(.*?),.*?" +
-                "village=(.*?),.*?road=(.*?),.*?roadNum=(.*?),.*?buildingNum=(.*?),.*?text=(.*?)\n\)",
-                re.S)
+                "Address\(\n\tprovinceId=(.*?), province=(.*?), " +
+                "\n\tcityId=(.*?), city=(.*?), " +
+                "\n\tdistrictId=(.*?), district=(.*?), " +
+                "\n\tstreetId=(.*?), street=(.*?), " +
+                "\n\ttownId=(.*?), town=(.*?), " +
+                "\n\tvillageId=(.*?), village=(.*?), " +
+                "\n\troad=(.*?), " +
+                "\n\troadNum=(.*?), " +
+                "\n\tbuildingNum=(.*?), " +
+                "\n\ttext=(.*?)\n\)"
+                , re.S)
 
             try:
                 info = re.findall(pattern, str(self.geocoding.normalizing(str(address)).toString()))[0]
@@ -125,8 +132,8 @@ class Geocoding():
         '''
         地址相似度计算, 包含匹配的所有结果
 
-        :param Address1: 地址1, <class 'str'> 或 <java class 'io.patamon.geocoding.model.Address'>
-        :param Address1: 地址2, <class 'str'> 或 <java class 'io.patamon.geocoding.model.Address'>
+        :param Address1: 地址1, 请确保两个输入参数类型相同， 支持[<class 'str'> 或 <java class 'io.patamon.geocoding.model.Address'>]类型
+        :param Address1: 地址2, 请确保两个输入参数类型相同, 支持[<class 'str'> 或 <java class 'io.patamon.geocoding.model.Address'>]类型
         :return:
         '''
         pattern = re.compile("similarity=(.*?)\n\)", re.S)
