@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # @Time    : 2021/1/18 13:07
 # @Author  : ZhouHang
-# @Email   : zhouhang@idataway.com
+# @Email   : fjkl@vip.qq.com
 # @File    : Geocoding.py
 # @Software: PyCharm
 import jpype

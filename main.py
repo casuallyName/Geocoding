@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # @Time    : 2021/1/18 13:11
 # @Author  : ZhouHang
-# @Email   : zhouhang@idataway.com
+# @Email   : fjkl@vip.qq.com
 # @File    : main.py.py
 # @Software: PyCharm
 from Geocoding import Geocoding
@@ -26,8 +26,7 @@ if __name__ == '__main__':
     similar = Geocoding.similarityWithResult(text1, text2)
     print(similar)
 
-
-    # 查看RegionType
+    # 查看 RegionType
     Geocoding.showRegionType()
 
     # 添加自定义地址
