@@ -1,5 +1,7 @@
 # Geocoding
->注：
+> 该项目用于将不规范(或者连续)的文本地址进行尽可能的标准化, 以及对两个地址进行相似度的计算
+> 
+> **注：**
 > 该项目为 [IceMimosa/geocoding](https://github.com/IceMimosa/geocoding) 项目的Python封装，原项目为Kotlin开发，
 > 这里使用`jpype`模块进行了Python封装，方便使用Python方法调用
 ## 地址标准化
