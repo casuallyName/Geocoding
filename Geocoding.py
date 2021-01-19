@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
-# @Time    : 2021/1/18 13:07
+# @Time    : 2021/1/18 13:11
 # @Author  : ZhouHang
 # @Email   : fjkl@vip.qq.com
 # @File    : Geocoding.py
@@ -9,149 +9,156 @@ import jpype
 import re
 import os
 
+jpype.startJVM(jpype.getDefaultJVMPath(), "-ea",
+               "-Djava.class.path=" + os.path.abspath(__file__).replace('Geocoding.py', 'src\geocoding.jar'))
 
-class Geocoding():
-    def __init__(self, JVMPath=None):
-        # print(os.path.abspath(__file__))
-        if JVMPath is None:
-            self.JVMPath = jpype.getDefaultJVMPath()
-        else:
-            self.JVMPath = JVMPath
 
-        self.jarPath = "-Djava.class.path=" + os.path.abspath(__file__).replace('Geocoding.py', 'src\geocoding.jar')
-        # self.jarPath = "-Djava.class.path=./src/geocoding.jar"
-        # print(self.jarPath)
-        jpype.startJVM(self.JVMPath, "-ea", self.jarPath)
-        self.geocoding = jpype.JClass('io.patamon.geocoding.Geocoding')
-        self._RegionTypeClass = jpype.JClass('io.patamon.geocoding.model.RegionType')
-        self._RegionType = {
-            'Undefined': self._RegionTypeClass.Undefined,  # 未定义区域类型
-            'Country': self._RegionTypeClass.Country,  # 国家
-            'Province': self._RegionTypeClass.Province,  # 省份
-            'ProvinceLevelCity1': self._RegionTypeClass.ProvinceLevelCity1,  # 直辖市 - 与省份并行的一级
-            'ProvinceLevelCity2': self._RegionTypeClass.ProvinceLevelCity2,  # 直辖市 - 与城市并行的一级
-            'City': self._RegionTypeClass.City,  # 地级市
-            'CityLevelDistrict': self._RegionTypeClass.CityLevelDistrict,  # 省直辖县级市
-            'District': self._RegionTypeClass.District,  # 县、区
-            'Street': self._RegionTypeClass.Street,  # 街道乡镇一级
-            'PlatformL4': self._RegionTypeClass.PlatformL4,  # 特定平台的4级地址
-            'Town': self._RegionTypeClass.Town,  # 附加：乡镇
-            'Village': self._RegionTypeClass.Village  # 附加：村
+class Address(object):
+    def __init__(self, provinceId=None, province=None, cityId=None, city=None, districtId=None, district=None,
+                 streetId=None, street=None, townId=None, town=None, villageId=None, village=None, road=None,
+                 roadNum=None, buildingNum=None, text=None, java=None):
+        self.provinceId = jpype.JLong(provinceId) if provinceId is not None else jpype.JLong()
+        self.province = jpype.JString(province) if province is not None else jpype.JString()
+        self.cityId = jpype.JLong(cityId) if cityId is not None else jpype.JLong()
+        self.city = jpype.JString(city) if city is not None else jpype.JString()
+        self.districtId = jpype.JLong(districtId) if districtId is not None else jpype.JLong()
+        self.district = jpype.JString(district) if district is not None else jpype.JString()
+        self.streetId = jpype.JLong(streetId) if streetId is not None else jpype.JLong()
+        self.street = jpype.JString(street) if street is not None else jpype.JString()
+        self.townId = jpype.JLong(townId) if townId is not None else jpype.JLong()
+        self.town = jpype.JString(town) if town is not None else jpype.JString()
+        self.villageId = jpype.JLong(villageId) if villageId is not None else jpype.JLong()
+        self.village = jpype.JString(village) if village is not None else jpype.JString()
+        self.road = jpype.JString(road) if road is not None else jpype.JString()
+        self.roadNum = jpype.JString(roadNum) if roadNum is not None else jpype.JString()
+        self.buildingNum = jpype.JString(buildingNum) if buildingNum is not None else jpype.JString()
+        self.text = jpype.JString(text) if text is not None else jpype.JString()
+        self._AddressClass = jpype.JClass('io.patamon.geocoding.model.Address')
+        self._java = java if java is not None else self._AddressClass(self.provinceId, self.province, self.cityId,
+                                                                      self.city, self.districtId, self.district,
+                                                                      self.streetId, self.street, self.townId,
+                                                                      self.town,
+                                                                      self.villageId, self.village, self.road,
+                                                                      self.roadNum, self.buildingNum, self.text)
+
+    def __str__(self):
+        return (f"Address(\n\tprovinceId={self.provinceId}, province={self.province}, " +
+                f"\n\tcityId={self.cityId}, city={self.city}, " +
+                f"\n\tdistrictId={self.districtId}, district={self.district}, " +
+                f"\n\tstreetId={self.streetId}, street={self.street}, " +
+                f"\n\ttownId={self.townId}, town={self.town}, " +
+                f"\n\tvillageId={self.villageId}, village={self.village}, " +
+                f"\n\troad={self.road}, " +
+                f"\n\troadNum={self.roadNum}, " +
+                f"\n\tbuildingNum={self.buildingNum}, " +
+                f"\n\ttext={self.text}\n)")
+
+    @property
+    def __dict__(self):
+        return {
+            'provinceId': self.provinceId,
+            'province': self.province,
+            'cityId': self.cityId,
+            'city': self.city,
+            'districtId': self.districtId,
+            'district': self.district,
+            'streetId': self.streetId,
+            'street': self.street,
+            'townId': self.townId,
+            'town': self.town,
+            'villageId': self.villageId,
+            'village': self.village,
+            'road': self.road,
+            'roadNum': self.roadNum,
+            'buildingNum': self.buildingNum,
+            'text': self.text
         }
 
-    def showRegionType(self):
-        RegionType = {
-            'KeyWord': 'RegionType',
-            'Undefined': '未定义区域类型',
-            'Country': '国家',
-            'Province': '省份',
-            'ProvinceLevelCity1': '直辖市 - 与省份并行的一级',
-            'ProvinceLevelCity2': '直辖市 - 与城市并行的一级',
-            'City': '地级市',
-            'CityLevelDistrict': '省直辖县级市',
-            'District': '县 区',
-            'Street': '街道乡镇一级',
-            'PlatformL4': '特定平台的4级地址',
-            'Town': '乡镇',
-            'Village': '村'
-        }
-        flag = True
-        for k, v in RegionType.items():
-            print('{:<20}| {}'.format(k, v))
-            if flag:
-                print('{:-<20}┼-{}'.format('', '-' * 15))
-                flag = False
+    @property
+    def __java__(self):
+        return self._java
 
-    def normalizing(self, address, java_type=False):
-        '''
-        地址标准化
 
-        :param address: 文本地址
-        :param java_type: 返回java原生类型,<java class 'io.patamon.geocoding.model.Address'>, default=False
-        :return:
-        '''
-        if java_type:
-            return self.geocoding.normalizing(str(address))
-        else:
-            pattern = re.compile(
-                "Address\(\n\tprovinceId=(.*?), province=(.*?), " +
-                "\n\tcityId=(.*?), city=(.*?), " +
-                "\n\tdistrictId=(.*?), district=(.*?), " +
-                "\n\tstreetId=(.*?), street=(.*?), " +
-                "\n\ttownId=(.*?), town=(.*?), " +
-                "\n\tvillageId=(.*?), village=(.*?), " +
-                "\n\troad=(.*?), " +
-                "\n\troadNum=(.*?), " +
-                "\n\tbuildingNum=(.*?), " +
-                "\n\ttext=(.*?)\n\)"
-                , re.S)
+class RegionType(object):
+    RegionTypeClass = jpype.JClass('io.patamon.geocoding.model.RegionType')
+    Undefined = RegionTypeClass.Undefined  # 未定义区域类型
+    Country = RegionTypeClass.Country  # 国家
+    Province = RegionTypeClass.Province  # 省份
+    ProvinceLevelCity1 = RegionTypeClass.ProvinceLevelCity1  # 直辖市 - 与省份并行的一级
+    ProvinceLevelCity2 = RegionTypeClass.ProvinceLevelCity2  # 直辖市 - 与城市并行的一级
+    City = RegionTypeClass.City  # 地级市
+    CityLevelDistrict = RegionTypeClass.CityLevelDistrict  # 省直辖县级市
+    District = RegionTypeClass.District  # 县、区
+    Street = RegionTypeClass.Street  # 街道乡镇一级
+    PlatformL4 = RegionTypeClass.PlatformL4  # 特定平台的4级地址
+    Town = RegionTypeClass.Town  # 附加：乡镇
+    Village = RegionTypeClass.Village  # 附加：村
 
-            try:
-                info = re.findall(pattern, str(self.geocoding.normalizing(str(address)).toString()))[0]
-                info = [None if i == 'null' or i == 'nan' else i for i in info]
 
-                return {
-                    'provinceId': info[0],
-                    'province': info[1],
-                    'cityId': info[2],
-                    'city': info[3],
-                    'districtId': info[4],
-                    'district': info[5],
-                    'streetId': info[6],
-                    'street': info[7],
-                    'townId': info[8],
-                    'town': info[9],
-                    'villageId': info[10],
-                    'village': info[11],
-                    'road': info[12],
-                    'roadNum': info[13],
-                    'buildingNum': info[14],
-                    'text': info[15]
-                }
-            except AttributeError:
-                return {
-                    'provinceId': '000000000000',
-                    'province': None,
-                    'cityId': '000000000000',
-                    'city': None,
-                    'districtId': '000000000000',
-                    'district': None,
-                    'streetId': None,
-                    'street': None,
-                    'townId': None,
-                    'town': None,
-                    'villageId': None,
-                    'village': None,
-                    'road': None,
-                    'roadNum': None,
-                    'buildingNum': None,
-                    'text': None
-                }
 
-    def similarityWithResult(self, Address1, Address2):
-        '''
-        地址相似度计算, 包含匹配的所有结果
+def normalizing(address: str):
+    """
+    地址标准化
 
-        :param Address1: 地址1, 请确保两个输入参数类型相同， 支持[<class 'str'> 或 <java class 'io.patamon.geocoding.model.Address'>]类型
-        :param Address1: 地址2, 请确保两个输入参数类型相同, 支持[<class 'str'> 或 <java class 'io.patamon.geocoding.model.Address'>]类型
-        :return:
-        '''
-        pattern = re.compile("similarity=(.*?)\n\)", re.S)
-        return eval(re.findall(pattern, str(self.geocoding.similarityWithResult(Address1, Address2).toString()))[0])
+    :param address: 文本地址
+    :return:
+    """
+    geocoding = jpype.JClass('io.patamon.geocoding.Geocoding')
+    address_nor_java = geocoding.normalizing(str(address))
+    pattern = re.compile(
+        "Address\(\n\tprovinceId=(.*?), province=(.*?), " +
+        "\n\tcityId=(.*?), city=(.*?), " +
+        "\n\tdistrictId=(.*?), district=(.*?), " +
+        "\n\tstreetId=(.*?), street=(.*?), " +
+        "\n\ttownId=(.*?), town=(.*?), " +
+        "\n\tvillageId=(.*?), village=(.*?), " +
+        "\n\troad=(.*?), " +
+        "\n\troadNum=(.*?), " +
+        "\n\tbuildingNum=(.*?), " +
+        "\n\ttext=(.*?)\n\)"
+        , re.S)
+    try:
+        info = re.findall(pattern, str(address_nor_java.toString()))[0]
+        info = [None if i == 'null' or i == 'nan' else i for i in info]
+        return Address(info[0], info[1], info[2], info[3], info[4], info[5], info[6], info[7], info[8], info[9],
+                       info[10], info[11], info[12], info[13], info[14], info[15], address_nor_java)
+    except AttributeError:
+        return Address
 
-    def addRegionEntry(self, Id, parentId, name, RegionType, alias=''):
-        '''
-        设置自定义地址
 
-        :param Id: 地址的ID
-        :param parentId: 地址的父ID, 必须存在
-        :param name: 地址的名称
-        :param RegionType: RegionType,地址类型, [请在ShowRegionType中查看详细信息]
-        :param alias: 地址的别名, default=''
-        :return:
-        '''
-        try:
-            self.geocoding.addRegionEntry(Id, parentId, name, self._RegionType[RegionType], alias)
-            return True
-        except:
-            return False
+def similarityWithResult(Address_1: Address, Address_2: Address):
+    """
+    地址相似度计算
+
+    :param Address_1: 地址1, 由 Geocoding.normalizing 方法返回的 Address 类
+    :param Address_2: 地址2, 由 Geocoding.normalizing 方法返回的 Address 类
+    :return:
+    """
+    geocoding = jpype.JClass('io.patamon.geocoding.Geocoding')
+    pattern = re.compile("similarity=(.*?)\n\)", re.S)
+    if type(Address_1) == type(Address_2) == Address:
+        return eval(re.findall(pattern,
+                               str(geocoding.similarityWithResult(Address_1.__java__,
+                                                                  Address_2.__java__).toString()))[0])
+    else:
+        raise TypeError(
+            "Geocoding.similarityWithResult仅支持计算两个由 Geocoding.normalizing 方法返回的Address类之间的相似度")
+
+
+def addRegionEntry(Id: int, parentId: int, name: str, RegionType: RegionType, alias=''):
+    """
+    添加自定义地址信息
+
+    :param Id: 地址的ID
+    :param parentId: 地址的父ID, 必须存在
+    :param name: 地址的名称
+    :param RegionType: 地址类型,RegionType,
+    :param alias: 地址的别名, default=''
+    :return:
+    """
+    geocoding = jpype.JClass('io.patamon.geocoding.Geocoding')
+    try:
+        geocoding.addRegionEntry(Id, parentId, name, RegionType, alias)
+        return True
+    except:
+        return False
