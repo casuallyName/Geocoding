@@ -1,9 +1,13 @@
 # Geocoding
-> 该项目用于将不规范(或者连续)的文本地址进行尽可能的标准化, 以及对两个地址进行相似度的计算
+> 该模块用于将不规范(或者连续)的文本地址进行尽可能的标准化, 以及对两个地址进行相似度的计算
 > 
 > **注：**
-> 该项目为 [IceMimosa/geocoding](https://github.com/IceMimosa/geocoding) 项目的Python封装，原项目为Kotlin开发，
-> 这里使用`jpype`模块进行了Python封装，方便使用Python方法调用
+> 该模块为 [IceMimosa/geocoding](https://github.com/IceMimosa/geocoding) 项目的Python封装，原项目为Kotlin开发
+> 
+> 为方便使用Python方法调用，这里使用Python的`jpype`模块将 [IceMimosa/geocoding](https://github.com/IceMimosa/geocoding) 进行封装
+> 
+>因此该模块需要Java环境的支持(需要添加JAVA_HOME等环境变量)
+* 安装命令 `pip install GeocodingCHN`
 ## 地址标准化
 `Geocoding.normalizing(address) `
 * address: 文本地址
