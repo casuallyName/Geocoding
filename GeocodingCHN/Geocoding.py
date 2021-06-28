@@ -17,22 +17,22 @@ class Address(object):
     def __init__(self, provinceId=None, province=None, cityId=None, city=None, districtId=None, district=None,
                  streetId=None, street=None, townId=None, town=None, villageId=None, village=None, road=None,
                  roadNum=None, buildingNum=None, text=None, java=None):
-        self.provinceId = jpype.JLong(provinceId) if provinceId is not None else jpype.JLong()
-        self.province = jpype.JString(province) if province is not None else jpype.JString()
-        self.cityId = jpype.JLong(cityId) if cityId is not None else jpype.JLong()
-        self.city = jpype.JString(city) if city is not None else jpype.JString()
-        self.districtId = jpype.JLong(districtId) if districtId is not None else jpype.JLong()
-        self.district = jpype.JString(district) if district is not None else jpype.JString()
-        self.streetId = jpype.JLong(streetId) if streetId is not None else jpype.JLong()
-        self.street = jpype.JString(street) if street is not None else jpype.JString()
-        self.townId = jpype.JLong(townId) if townId is not None else jpype.JLong()
-        self.town = jpype.JString(town) if town is not None else jpype.JString()
-        self.villageId = jpype.JLong(villageId) if villageId is not None else jpype.JLong()
-        self.village = jpype.JString(village) if village is not None else jpype.JString()
-        self.road = jpype.JString(road) if road is not None else jpype.JString()
-        self.roadNum = jpype.JString(roadNum) if roadNum is not None else jpype.JString()
-        self.buildingNum = jpype.JString(buildingNum) if buildingNum is not None else jpype.JString()
-        self.text = jpype.JString(text) if text is not None else jpype.JString()
+        self.provinceId = int(provinceId) if provinceId else provinceId
+        self.province = province
+        self.cityId = int(cityId) if cityId else cityId
+        self.city = city
+        self.districtId = int(districtId) if districtId else districtId
+        self.district = district
+        self.streetId = int(streetId) if streetId else streetId
+        self.street = street
+        self.townId = townId
+        self.town = town
+        self.villageId = villageId if villageId is not None else None
+        self.village = village
+        self.road = road
+        self.roadNum = roadNum
+        self.buildingNum = buildingNum
+        self.text = text
         self._AddressClass = jpype.JClass('io.patamon.geocoding.model.Address')
         self._java = java if java is not None else self._AddressClass(self.provinceId, self.province, self.cityId,
                                                                       self.city, self.districtId, self.district,

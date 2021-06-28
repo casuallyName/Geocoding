@@ -21,7 +21,7 @@ with open('README.rst', encoding='utf-8') as f:
 setup(
     # name='GeocodingCHN',
     name='GeocodingCHN',
-    version='1.0',
+    version='1.2',
     author='ZhouHang',
     author_email='fjkl@vip.qq.com',
     description='地址标准化',
