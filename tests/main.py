@@ -8,6 +8,7 @@
 from GeocodingCHN import Geocoding
 
 if __name__=='__main__':
+    print(Geocoding.version)
     text = '山东青岛李沧区延川路116号绿城城园东区7号楼2单元802户'
     res = Geocoding.normalizing(text)
     print(res)

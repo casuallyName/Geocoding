@@ -5,9 +5,26 @@
 # @Email   : fjkl@vip.qq.com
 # @File    : Geocoding.py
 # @Software: PyCharm
+__all__ = ['version', 'normalizing', 'similarityWithResult', 'addRegionEntry', 'Address', 'RegionType']
+
 import jpype
 import re
 import os
+
+
+class Version:
+    def __init__(self, package, jar):
+        self.package = package
+        self.jar = jar
+
+    def __repr__(self):
+        return f'Package(GeocodingCHN) version: {self.package}\nSrc(geocoding.jar) version: {self.jar}'
+
+    def __str__(self):
+        return f'Package(GeocodingCHN) version: {self.package}, Src(geocoding.jar) version: {self.jar}'
+
+
+version = Version(package='v1.4.0', jar='v1.1.6')
 
 jpype.startJVM(jpype.getDefaultJVMPath(), "-ea",
                "-Djava.class.path=" + os.path.abspath(__file__).replace('Geocoding.py', 'geocoding.jar'))
@@ -42,6 +59,18 @@ class Address(object):
                                                                       self.roadNum, self.buildingNum, self.text)
 
     def __str__(self):
+        return (f"Address(provinceId={self.provinceId}, province={self.province}, " +
+                f"cityId={self.cityId}, city={self.city}, " +
+                f"districtId={self.districtId}, district={self.district}, " +
+                f"streetId={self.streetId}, street={self.street}, " +
+                f"townId={self.townId}, town={self.town}, " +
+                f"villageId={self.villageId}, village={self.village}, " +
+                f"road={self.road}, " +
+                f"roadNum={self.roadNum}, " +
+                f"buildingNum={self.buildingNum}, " +
+                f"text={self.text})")
+
+    def __repr__(self):
         return (f"Address(\n\tprovinceId={self.provinceId}, province={self.province}, " +
                 f"\n\tcityId={self.cityId}, city={self.city}, " +
                 f"\n\tdistrictId={self.districtId}, district={self.district}, " +
@@ -93,7 +122,6 @@ class RegionType(object):
     PlatformL4 = RegionTypeClass.PlatformL4  # 特定平台的4级地址
     Town = RegionTypeClass.Town  # 附加：乡镇
     Village = RegionTypeClass.Village  # 附加：村
-
 
 
 def normalizing(address: str):
