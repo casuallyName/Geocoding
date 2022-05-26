@@ -24,7 +24,7 @@ def read_file(filename):
 setup(
     # name='GeocodingCHN',
     name='GeocodingCHN',
-    version='1.4.0',
+    version='1.4.1',
     author='ZhouHang',
     author_email='fjkl@vip.qq.com',
     description='地址标准化',
@@ -33,14 +33,14 @@ setup(
     license="MIT Licence",
     url='https://github.com/casuallyName/Geocoding',
     packages=find_packages(),
-    package_data={'GeocodingCHN': ['*.jar'],},
+    package_data={'GeocodingCHN': ['geocoding.jar'],},
     include_package_data=True,
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    python_requires='>=3.6',
+    python_requires='>=3.7',
     install_requires=['jpype1'],
     zip_sfe=False
 
