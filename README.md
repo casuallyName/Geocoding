@@ -5,7 +5,7 @@
 
 [![PypiVersion](https://img.shields.io/badge/pypi-1.4.1-blue)](https://github.com/casuallyName/Geocoding) 
 [![JarVersion](https://img.shields.io/badge/jar-1.3.0-blue)](https://github.com/IceMimosa/geocoding) 
-![Python wheels](https://img.shields.io/badge/wheels-%E2%9C%93-4c1.svg?longCache=true&style=flat-square&logo=python&logoColor=white)
+[![Python wheels](https://img.shields.io/badge/wheels-%E2%9C%93-4c1.svg?longCache=true&style=flat-square&logo=python&logoColor=white)](https://github.com/casuallyName/Geocoding/releases/tag/v1.4.1)
 
 * 该模块用于将不规范(或者连续)的文本地址进行尽可能的标准化, 以及对两个地址进行相似度的计算
 * 该模块为 [IceMimosa/geocoding](https://github.com/IceMimosa/geocoding) 项目的Python封装，原项目为Kotlin开发
@@ -24,8 +24,8 @@
 - [x] `addRegionEntry` 方法新增 `replace` 参数，表示是否替换旧地址，默认为`True`
 
 其他更新：
--[x] 区分 `similarityWithResult` 与 `similarity` 方法，`similarityWithResult` 返回MatchedResult类型结果，`similarity` 返回float类型结果
--[x] 封装分词方法 `segment`
+- [x] 区分 `similarityWithResult` 与 `similarity` 方法，`similarityWithResult` 返回MatchedResult类型结果，`similarity` 返回float类型结果
+- [x] 封装分词方法 `segment`
 
 ## GeocodingCHN.Geocoding
 ```python
