@@ -91,9 +91,9 @@ MatchedResult(
 ### GeocodingCHN.Geocoding.similarity
 地址相似度计算
 
-`similarityWithResult(Address1:Address, Address2:Address)`
-* Address1: 地址1, 由 normalizing 方法返回的 Address 类
-* Address2: 地址2, 由 normalizing 方法返回的 Address 类
+`similarityWithResult(Address1:[Address, str], Address2:[Address, str])`
+* Address1: 地址1, Address类 或 文本
+* Address2: 地址2, Address类 或 文本
 ```python
 from GeocodingCHN import Geocoding
 geocoding = Geocoding()
