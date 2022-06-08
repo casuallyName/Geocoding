@@ -3,7 +3,7 @@
 ![Linux](https://img.shields.io/badge/Linux-pass-success)
 ![Windows](https://img.shields.io/badge/Windows-bug-red)
 
-[![PypiVersion](https://img.shields.io/badge/pypi-1.4.1-blue)](https://github.com/casuallyName/Geocoding) 
+[![PypiVersion](https://img.shields.io/badge/pypi-1.4.1-blue)](https://pypi.org/project/GeocodingCHN/) 
 [![JarVersion](https://img.shields.io/badge/jar-1.3.0-blue)](https://github.com/IceMimosa/geocoding) 
 [![Python wheels](https://img.shields.io/badge/wheels-%E2%9C%93-4c1.svg?longCache=true&style=flat-square&logo=python&logoColor=white)](https://github.com/casuallyName/Geocoding/releases/tag/v1.4.1)
 
