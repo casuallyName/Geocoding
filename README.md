@@ -14,7 +14,7 @@
 * 安装命令 `pip install GeocodingCHN`
 
 ## 更新信息：
-随[原项目](https://github.com/IceMimosa/geocoding)更新jar包,并适配新增功能。 [新增功能](https://github.com/bitlap/geocoding/releases/tag/v1.3.0)：
+随[原项目](https://github.com/bitlap/geocoding)更新jar包,并适配新增功能。 [新增功能](https://github.com/bitlap/geocoding/releases/tag/v1.3.0)：
 - [x] `GeocodingCHN.Geocoding`新增参数设定（为适配`org.bitlap.geocoding.GeocodingX`类）
   * 新增`data_class_path`参数，支持自定义地址文件路径，要求该路径为文件绝对路径，默认使用内置地址`core/region.dat`
   * 新增`strict`参数，默认 `False`。当发现没有省和市，且匹配的父项数量等于1时，能成功匹配。
