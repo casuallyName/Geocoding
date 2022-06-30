@@ -8,8 +8,8 @@
 [![Python wheels](https://img.shields.io/badge/wheels-%E2%9C%93-4c1.svg?longCache=true&style=flat-square&logo=python&logoColor=white)](https://github.com/casuallyName/Geocoding/releases/tag/v1.4.1)
 
 * 该模块用于将不规范(或者连续)的文本地址进行尽可能的标准化, 以及对两个地址进行相似度的计算
-* 该模块为 [IceMimosa/geocoding](https://github.com/IceMimosa/geocoding) 项目的Python封装，原项目为Kotlin开发
-* 为方便使用Python方法调用，这里使用Python的`jpype`模块将 [IceMimosa/geocoding](https://github.com/IceMimosa/geocoding) 进行封装,因此该模块需要Java环境的支持(需要添加JAVA_HOME等环境变量)
+* 该模块为 [bitlap/geocoding](https://github.com/bitlap/geocoding) 项目的Python封装，原项目为Kotlin开发
+* 为方便使用Python方法调用，这里使用Python的`jpype`模块将 [bitlap/geocoding](https://github.com/bitlap/geocoding) 进行封装,因此该模块需要Java环境的支持(需要添加JAVA_HOME等环境变量)
 * `GeocodingCHN`重新加载功能在Windows平台上可能会遇到错误，参考[Jpype Changelog](https://jpype.readthedocs.io/en/latest/CHANGELOG.html) 1.2.0 - 2020-11-29 更新信息。
 * 安装命令 `pip install GeocodingCHN`
 
@@ -155,5 +155,5 @@ print(geocoding.segment(text))
 ```
 
 # 感谢
-* 感谢[原作者](https://github.com/IceMimosa/geocoding)的辛苦付出！
-* 感谢[原作者](https://github.com/IceMimosa/geocoding)的感谢！
+* 感谢[原作者](https://github.com/bitlap/geocoding)的辛苦付出！
+* 感谢[原作者](https://github.com/bitlap/geocoding)的感谢！
