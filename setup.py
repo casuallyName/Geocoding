@@ -24,7 +24,7 @@ def read_file(filename):
 setup(
     # name='GeocodingCHN',
     name='GeocodingCHN',
-    version='1.4.1',
+    version='1.4.2',
     author='ZhouHang',
     author_email='fjkl@vip.qq.com',
     description='地址标准化',

@@ -7,26 +7,28 @@
 # @About    :
 __all__ = ['Geocoding']
 
-import jpype
-import re
 import os
+import re
+import traceback
 import warnings
 
+import jpype
+
 from .model import Address
-from .model import RegionType
-from .model import Version
 from .model import Document
 from .model import MatchedResult
+from .model import RegionType
+from .model import Version
 
 
 class Geocoding:
     def __init__(self, data_class_path='core/region.dat', strict: bool = False, jvm_path: str = None):
-        '''
+        """
 
         :param data_class_path:自定义地址文件路径
         :param strict:模式设置
         :param jvm_path:JVM路径
-        '''
+        """
         class_path = os.path.join(os.path.split(os.path.abspath(__file__))[0],
                                   'geocoding.jar'
                                   )
@@ -49,18 +51,19 @@ class Geocoding:
             jpype.startJVM(jvm_path, "-ea", "-Djava.class.path=" + class_path)  # classpath=class_paths)#
         else:
             try:
-                jpype.JClass('org.bitlap.geocoding.Geocoding')
-                warnings.warn("Geocoding 已被创建，正在尝试重新加载（该过程在Windows环境下可能会出现异常）", category=RuntimeWarning)
+                jpype.JClass('org.bitlap.geocoding.GeocodingX')
+                warnings.warn("Geocoding 已被创建，正在尝试重新加载（该过程在Windows环境下可能会出现异常）",
+                              category=RuntimeWarning)
             except:
                 warnings.warn("JVM 已经在运行", category=RuntimeWarning)
             jpype.addClassPath(class_path)
-        self._jar_version = '1.3.0'
+        self._jar_version = '1.3.1'
         self.geocoding = jpype.JClass('org.bitlap.geocoding.GeocodingX')(data_name, strict=strict)
         self.RegionType = RegionType(jpype.JClass('org.bitlap.geocoding.model.RegionType'))
 
     @property
     def __version__(self):
-        return Version(package='v1.4.1', jar=self._jar_version)
+        return Version(package='v1.4.2', jar=self._jar_version)
 
     def normalizing(self, address: str) -> Address:
         """
@@ -169,7 +172,7 @@ class Geocoding:
                     type(address_1), type(address_2)))
         return result
 
-    def addRegionEntry(self, Id: int, parentId: int, name: str, RegionType: RegionType, alias: str = '',
+    def addRegionEntry(self, Id: int, parentId: int, name: str, region_type: RegionType, alias: str = '',
                        replace: bool = True) -> bool:
         """
         添加自定义地址信息
@@ -177,26 +180,26 @@ class Geocoding:
         :param Id: 地址的ID
         :param parentId: 地址的父ID, 必须存在
         :param name: 地址的名称
-        :param RegionType: 地址类型,RegionType,
+        :param region_type: 地址类型,RegionType,
         :param alias: 地址的别名, default=''
         :param replace: 是否替换旧地址, 当除了[id]之外的字段, 如果相等就替换
         :return:
         """
         try:
-            self.geocoding.addRegionEntry(id=Id, parentId=parentId, name=name,
-                                          RegionType=RegionType, alias=alias, replace=replace)
+            self.geocoding.addRegionEntry(Id, parentId, name, region_type, alias, replace)
             return True
         except:
+            traceback.print_exc()
             return False
 
     def segment(self, text: str, seg_type: str = 'ik') -> list:
-        '''
+        """
         分词
 
         :param text: input
         :param seg_type: ['ik', 'simple', 'smart', 'word']
         :return:
-        '''
+        """
         if seg_type == 'ik':
             seg_class = jpype.JClass('org.bitlap.geocoding.core.segment.IKAnalyzerSegmenter')()
         elif seg_type == 'simple':
@@ -208,4 +211,3 @@ class Geocoding:
         else:
             raise AttributeError("'seg_type' 只可以是 ['ik', 'simple', 'smart', 'word'] 中的一种")
         return list(seg_class.segment(text))
-

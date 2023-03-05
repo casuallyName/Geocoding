@@ -14,6 +14,13 @@
 * 安装命令 `pip install GeocodingCHN`
 
 ## 更新信息：
+
+## 1.4.1
+
+修复 无法添加自定义地址问题，并更新jar包至1.3.1
+
+## 1.4.0
+
 随[原项目](https://github.com/bitlap/geocoding)更新jar包,并适配新增功能。 [新增功能](https://github.com/bitlap/geocoding/releases/tag/v1.3.0)：
 - [x] `GeocodingCHN.Geocoding`新增参数设定（为适配`org.bitlap.geocoding.GeocodingX`类）
   * 新增`data_class_path`参数，支持自定义地址文件路径，要求该路径为文件绝对路径，默认使用内置地址`core/region.dat`
