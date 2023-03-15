@@ -3,9 +3,9 @@
 ![Linux](https://img.shields.io/badge/Linux-pass-success)
 ![Windows](https://img.shields.io/badge/Windows-bug-red)
 
-[![PypiVersion](https://img.shields.io/badge/pypi-1.4.1-blue)](https://pypi.org/project/GeocodingCHN/) 
-[![JarVersion](https://img.shields.io/badge/jar-1.3.0-blue)](https://github.com/IceMimosa/geocoding) 
-[![Python wheels](https://img.shields.io/badge/wheels-%E2%9C%93-4c1.svg?longCache=true&style=flat-square&logo=python&logoColor=white)](https://github.com/casuallyName/Geocoding/releases/tag/v1.4.1)
+[![PypiVersion](https://img.shields.io/badge/pypi-1.4.2-blue)](https://pypi.org/project/GeocodingCHN/) 
+[![JarVersion](https://img.shields.io/badge/jar-1.3.1-blue)](https://github.com/IceMimosa/geocoding) 
+[![Python wheels](https://img.shields.io/badge/wheels-%E2%9C%93-4c1.svg?longCache=true&style=flat-square&logo=python&logoColor=white)](https://github.com/casuallyName/Geocoding/releases/tag/v1.4.2)
 
 * 该模块用于将不规范(或者连续)的文本地址进行尽可能的标准化, 以及对两个地址进行相似度的计算
 * 该模块为 [bitlap/geocoding](https://github.com/bitlap/geocoding) 项目的Python封装，原项目为Kotlin开发
@@ -15,11 +15,11 @@
 
 ## 更新信息：
 
-## 1.4.1
+## 1.4.2
 
 修复 无法添加自定义地址问题，并更新jar包至1.3.1
 
-## 1.4.0
+## 1.4.1
 
 随[原项目](https://github.com/bitlap/geocoding)更新jar包,并适配新增功能。 [新增功能](https://github.com/bitlap/geocoding/releases/tag/v1.3.0)：
 - [x] `GeocodingCHN.Geocoding`新增参数设定（为适配`org.bitlap.geocoding.GeocodingX`类）
