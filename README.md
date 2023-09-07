@@ -3,8 +3,8 @@
 ![Linux](https://img.shields.io/badge/Linux-pass-success)
 ![Windows](https://img.shields.io/badge/Windows-bug-red)
 
-[![PypiVersion](https://img.shields.io/badge/pypi-1.4.2-blue)](https://pypi.org/project/GeocodingCHN/) 
-[![JarVersion](https://img.shields.io/badge/jar-1.3.1-blue)](https://github.com/IceMimosa/geocoding) 
+[![PypiVersion](https://img.shields.io/badge/pypi-1.4.3-blue)](https://pypi.org/project/GeocodingCHN/) 
+[![JarVersion](https://img.shields.io/badge/jar-v1.3.1_build_2023.09.07-blue)](https://github.com/IceMimosa/geocoding) 
 [![Python wheels](https://img.shields.io/badge/wheels-%E2%9C%93-4c1.svg?longCache=true&style=flat-square&logo=python&logoColor=white)](https://github.com/casuallyName/Geocoding/releases/tag/v1.4.2)
 
 * 该模块用于将不规范(或者连续)的文本地址进行尽可能的标准化, 以及对两个地址进行相似度的计算
@@ -14,6 +14,12 @@
 * 安装命令 `pip install GeocodingCHN`
 
 ## 更新信息：
+
+## 1.4.3
+
+1. 添加`save`方法用于生成自定义的dat字典文件
+2. 添加`match`方法用于深度优先匹配符合输入的地址信息
+3. 添加`analyze`方法用于地址切分
 
 ## 1.4.2
 

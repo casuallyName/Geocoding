@@ -11,6 +11,7 @@ import os
 import re
 import traceback
 import warnings
+from typing import Union
 
 import jpype
 
@@ -57,13 +58,12 @@ class Geocoding:
             except:
                 warnings.warn("JVM 已经在运行", category=RuntimeWarning)
             jpype.addClassPath(class_path)
-        self._jar_version = '1.3.1'
         self.geocoding = jpype.JClass('org.bitlap.geocoding.GeocodingX')(data_name, strict=strict)
         self.RegionType = RegionType(jpype.JClass('org.bitlap.geocoding.model.RegionType'))
 
     @property
     def __version__(self):
-        return Version(package='v1.4.2', jar=self._jar_version)
+        return Version(package='v1.4.3', jar='v1.3.1 build 2023.09.07')
 
     def normalizing(self, address: str) -> Address:
         """
@@ -74,18 +74,7 @@ class Geocoding:
         """
         try:
             address_nor_java = self.geocoding.normalizing(str(address))
-            return Address(provinceId=address_nor_java.getProvinceId(), province=address_nor_java.getProvince(),
-                           cityId=address_nor_java.getCityId(), city=address_nor_java.getCity(),
-                           districtId=address_nor_java.getDistrictId(), district=address_nor_java.getDistrict(),
-                           streetId=address_nor_java.getStreetId(), street=address_nor_java.getStreet(),
-                           townId=address_nor_java.getTownId(), town=address_nor_java.getTown(),
-                           villageId=address_nor_java.getVillageId(), village=address_nor_java.getVillage(),
-                           road=address_nor_java.getRoad(),
-                           roadNum=address_nor_java.getRoadNum(),
-                           buildingNum=address_nor_java.getBuildingNum(),
-                           text=address_nor_java.getText(),
-                           java=address_nor_java
-                           )
+            return Address.from_java_class(address_nor_java)
         except AttributeError:
             address_nor_java = self.geocoding.normalizing(str(address))
             pattern = re.compile(
@@ -108,49 +97,14 @@ class Geocoding:
             except AttributeError:
                 return Address()
 
-    def similarityWithResult(self, address_1: [Address, str], address_2: [Address, str]) -> MatchedResult:
+    def analyze(self, address: Union[Address, str]):
         """
-        地址相似度计算
+        将地址进行切分
 
-        :param Address_1: 地址1, 由 Geocoding.normalizing 方法返回的 Address 类
-        :param Address_2: 地址2, 由 Geocoding.normalizing 方法返回的 Address 类
+        :param address:
         :return:
         """
-
-        if type(address_1) == type(address_2) == Address or type(address_1) == type(address_2) == str:
-            if type(address_1) == type(address_2) == Address:
-                result = self.geocoding.similarityWithResult(address_1.__java__, address_2.__java__)
-            else:
-                result = self.geocoding.similarityWithResult(address_1, address_2)
-        else:
-            raise TypeError(
-                "similarityWithResult仅支持计算两个 Address 或 text 之间的相似度,但此时输入类型为 {} 和 {} ".format(
-                    type(address_1), type(address_2)))
-
-        try:
-            return MatchedResult(doc1=Document(terms=result.getDoc1().getTerms(),
-                                               termsMap=result.getDoc1().getTermsMap(),
-                                               town=result.getDoc1().getTown(),
-                                               village=result.getDoc1().getVillage(),
-                                               road=result.getDoc1().getRoad(),
-                                               roadNum=result.getDoc1().getRoadNum(),
-                                               roadNumValue=result.getDoc1().getRoadNumValue(),
-                                               ),
-                                 doc2=Document(terms=result.getDoc2().getTerms(),
-                                               termsMap=result.getDoc2().getTermsMap(),
-                                               town=result.getDoc2().getTown(),
-                                               village=result.getDoc2().getVillage(),
-                                               road=result.getDoc2().getRoad(),
-                                               roadNum=result.getDoc2().getRoadNum(),
-                                               roadNumValue=result.getDoc2().getRoadNumValue(),
-                                               ),
-                                 terms=result.getTerms(),
-                                 similarity=result.getSimilarity(),
-                                 java=result
-                                 )
-        except:
-            pattern = re.compile("similarity=(.*?)\n\)", re.S)
-            return MatchedResult(similarity=eval(re.findall(pattern, str(result.toString()))[0]))
+        return Document.from_java_class(self.geocoding.analyze(address if type(address) == str else address.java_class))
 
     def similarity(self, address_1: [Address, str], address_2: [Address, str]) -> float:
         """
@@ -161,16 +115,34 @@ class Geocoding:
         :return:
         """
 
-        if type(address_1) == type(address_2) == Address or type(address_1) == type(address_2) == str:
-            if type(address_1) == type(address_2) == Address:
-                result = self.geocoding.similarity(address_1.__java__, address_2.__java__)
-            else:
-                result = self.geocoding.similarity(address_1, address_2)
-        else:
-            raise TypeError(
-                "similarityWithResult仅支持计算两个 Address 或 text 之间的相似度,但此时输入类型为 {} 和 {} ".format(
-                    type(address_1), type(address_2)))
-        return result
+        address_1 = self.normalizing(address_1) if type(address_1) == str else address_1
+        address_2 = self.normalizing(address_2) if type(address_2) == str else address_2
+
+        result = self.geocoding.similarity(address_1.java_class, address_2.java_class)
+
+        return float(result) if result else None
+
+    def similarityWithResult(self, address_1: [Address, str], address_2: [Address, str]) -> MatchedResult:
+        """
+        地址相似度计算
+
+        :param Address_1: 地址1, 由 Geocoding.normalizing 方法返回的 Address 类
+        :param Address_2: 地址2, 由 Geocoding.normalizing 方法返回的 Address 类
+        :return:
+        """
+        address_1 = self.normalizing(address_1) if type(address_1) == str else address_1
+        address_2 = self.normalizing(address_2) if type(address_2) == str else address_2
+
+        return MatchedResult.from_java(self.geocoding.similarityWithResult(address_1.java_class, address_2.java_class))
+
+    def match(self, text):
+        """
+        深度优先匹配符合[text]的地址信息
+
+        :param text:
+        :return:
+        """
+        return self.geocoding.match(text)
 
     def addRegionEntry(self, Id: int, parentId: int, name: str, region_type: RegionType, alias: str = '',
                        replace: bool = True) -> bool:
@@ -211,3 +183,12 @@ class Geocoding:
         else:
             raise AttributeError("'seg_type' 只可以是 ['ik', 'simple', 'smart', 'word'] 中的一种")
         return list(seg_class.segment(text))
+
+    def save(self, path):
+        """
+        保存dat字典
+
+        :param path:
+        :return:
+        """
+        self.geocoding.save(path)

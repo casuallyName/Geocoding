@@ -6,6 +6,8 @@
 # @Software : Python 3.7
 # @About    :
 import jpype
+
+
 class Address(object):
     def __init__(self, provinceId=None, province=None, cityId=None, city=None, districtId=None, district=None,
                  streetId=None, street=None, townId=None, town=None, villageId=None, village=None, road=None,
@@ -80,6 +82,20 @@ class Address(object):
         }
 
     @property
-    def __java__(self):
+    def java_class(self):
         return self._java
 
+    @classmethod
+    def from_java_class(cls, java):
+        return cls(provinceId=java.getProvinceId(), province=java.getProvince(),
+                   cityId=java.getCityId(), city=java.getCity(),
+                   districtId=java.getDistrictId(), district=java.getDistrict(),
+                   streetId=java.getStreetId(), street=java.getStreet(),
+                   townId=java.getTownId(), town=java.getTown(),
+                   villageId=java.getVillageId(), village=java.getVillage(),
+                   road=java.getRoad(),
+                   roadNum=java.getRoadNum(),
+                   buildingNum=java.getBuildingNum(),
+                   text=java.getText(),
+                   java=java
+                   )
