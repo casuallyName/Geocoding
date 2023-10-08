@@ -29,12 +29,22 @@ class Address(object):
         self.buildingNum = buildingNum
         self.text = text
         self._AddressClass = jpype.JClass('org.bitlap.geocoding.model.Address')
-        self._java = java if java is not None else self._AddressClass(self.provinceId, self.province, self.cityId,
-                                                                      self.city, self.districtId, self.district,
-                                                                      self.streetId, self.street, self.townId,
-                                                                      self.town,
-                                                                      self.villageId, self.village, self.road,
-                                                                      self.roadNum, self.buildingNum, self.text)
+        self._java = java if java is not None else self._AddressClass(jpype.JLong(self.provinceId),
+                                                                      jpype.JString(self.province),
+                                                                      jpype.JLong(self.cityId),
+                                                                      jpype.JString(self.city),
+                                                                      jpype.JLong(self.districtId),
+                                                                      jpype.JString(self.district),
+                                                                      jpype.JLong(self.streetId),
+                                                                      jpype.JString(self.street),
+                                                                      jpype.JLong(self.townId),
+                                                                      jpype.JString(self.town),
+                                                                      jpype.JLong(self.villageId),
+                                                                      jpype.JString(self.village),
+                                                                      jpype.JString(self.road),
+                                                                      jpype.JString(self.roadNum),
+                                                                      jpype.JString(self.buildingNum),
+                                                                      jpype.JString(self.text))
 
     def __repr__(self):
         return (f"Address(provinceId={self.provinceId}, province={self.province}, " +

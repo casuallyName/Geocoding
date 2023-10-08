@@ -6,6 +6,7 @@
 # @File    : test.py
 # @Software: PyCharm
 from GeocodingCHN import Geocoding
+from GeocodingCHN.model import Address
 
 if __name__ == '__main__':
     geocoding = Geocoding()
@@ -30,3 +31,22 @@ if __name__ == '__main__':
     print(geocoding.normalizing("江苏泰州A街道"))
     print(geocoding.segment(text2))
     geocoding.save('A.dat')
+
+    print(Address(
+        provinceId=420000000000,
+        province='province',
+        cityId=420100000000,
+        city='city',
+        districtId=420106000000,
+        district='district',
+        streetId=420106003000,
+        street='street',
+        townId=0,
+        town='town',
+        villageId=0,
+        village='village',
+        road='road',
+        roadNum='roadNum',
+        buildingNum='buildingNum',
+        text='text',
+    ))
