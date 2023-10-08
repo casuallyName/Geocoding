@@ -63,7 +63,7 @@ class Geocoding:
 
     @property
     def __version__(self):
-        return Version(package='v1.4.3', jar='v1.3.1 build 2023.09.07')
+        return Version(package='v1.4.4', jar='v1.3.1 build 2023.09.07')
 
     def normalizing(self, address: str) -> Address:
         """
