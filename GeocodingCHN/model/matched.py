@@ -35,7 +35,7 @@ class MatchedResult:
         self.doc1 = doc1
         self.doc2 = doc2
         self.terms = terms
-        self.terms = terms if terms is None else [MatchedTerm(term.getTerm(),
+        self.terms = [] if terms is None else [MatchedTerm(term.getTerm(),
                                                               term.getCoord(),
                                                               term.getDensity(),
                                                               term.getBoost(),
@@ -61,9 +61,9 @@ class MatchedResult:
 
     @classmethod
     def from_java(cls, java):
-        return cls(doc1=Document.from_java_class(java.getDoc1()),
-                   doc2=Document.from_java_class(java.getDoc2()),
-                   terms=java.getTerms(),
-                   similarity=float(java.getSimilarity()) if java.getSimilarity() else None,
+        return cls(doc1=Document.from_java_class(java.getDoc1()) if java.getDoc1() else None,
+                   doc2=Document.from_java_class(java.getDoc2()) if java.getDoc2() else None,
+                   terms=java.getTerms() if java.getTerms() else [],
+                   similarity=None if java.getSimilarity() is None else float(java.getSimilarity()),
                    java=java
                    )

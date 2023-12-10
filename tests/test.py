@@ -21,11 +21,22 @@ if __name__ == '__main__':
     print(geocoding.analyze(address_1))
     print(geocoding.analyze(text1))
 
-    print(geocoding.similarity(address_1, address_2))
+    print(f"geocoding.similarity(address_1, address_2):{geocoding.similarity(address_1, address_2)}")
 
     similar = geocoding.similarityWithResult(address_1, address_2)
     print(similar)
+
+    text3 = '江西省南昌市新建县四十里堡镇东艾家庄村100号'
+    text4 = '广东省深圳市宝安区四十里堡镇东艾家庄村206号'
+    Address_3 = geocoding.normalizing(text3)
+    Address_4 = geocoding.normalizing(text4)
+    print('-' * 30)
+    print(geocoding.similarity(Address_3, Address_4))
+    print(geocoding.similarityWithResult(Address_3, Address_4))
+    print('-'*30)
+
     print(geocoding.match('山东青岛李沧区'))
+
 
     geocoding.addRegionEntry(1, 321200000000, "A街道", geocoding.RegionType.Street)
     print(geocoding.normalizing("江苏泰州A街道"))
@@ -50,3 +61,4 @@ if __name__ == '__main__':
         buildingNum='buildingNum',
         text='text',
     ))
+

@@ -63,7 +63,7 @@ class Geocoding:
 
     @property
     def __version__(self):
-        return Version(package='v1.4.4', jar='v1.3.1 build 2023.09.07')
+        return Version(package='v1.4.5', jar='v1.3.1 build 2023.09.07')
 
     def normalizing(self, address: str) -> Address:
         """
@@ -119,8 +119,7 @@ class Geocoding:
         address_2 = self.normalizing(address_2) if type(address_2) == str else address_2
 
         result = self.geocoding.similarity(address_1.java_class, address_2.java_class)
-
-        return float(result) if result else None
+        return None if result is None else float(result)
 
     def similarityWithResult(self, address_1: [Address, str], address_2: [Address, str]) -> MatchedResult:
         """
